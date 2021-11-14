@@ -11,10 +11,6 @@ app = Flask(__name__, static_url_path='/images')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['IMAGE_FOLDER'] = IMAGE_FOLDER
 
-# @app.route('/image/<name>', methods=['GET'])
-# def getImage(name):
-#     return
-
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -28,12 +24,7 @@ def upload_file():
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
             image_url_array = presentationToImages(os.path.abspath(file_path), 'image')
-            # print(rel_imagepath)
-            # return send_file(filename, mimetype='image/gif')
-            # return jsonify(
-            #         url=rel_imagepath
-            #     )
-            print(image_url_array)
+            os.remove(file_path)
             return jsonify(image_url_array)
     return ''
 
